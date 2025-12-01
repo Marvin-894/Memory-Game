@@ -21,7 +21,7 @@ h1 {
 /* === ESTILOS DEL TABLERO === */
 .board {
     display: grid;
-    /* Cuadrícula de 6 columnas para 34 tarjetas */
+    /* Cuadrícula de 6x6 para 36 tarjetas */
     grid-template-columns: repeat(6, 1fr); 
     grid-gap: 7px; 
     width: 95%; 
@@ -105,7 +105,7 @@ h1 {
 }
 
 #celebration-match {
-    position: fixed; /* Usar fixed para que flote sobre todo */
+    position: fixed; 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -156,14 +156,13 @@ h1 {
     overflow: hidden;
 }
 
-/* Crear dos capas de confetti para simular lluvia */
 .confetti::before, .confetti::after {
     content: '';
     position: absolute;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #ff00ff; /* Magenta */
+    background-color: #ff00ff;
     animation: confetti-fall 3s linear infinite;
 }
 .confetti::after {
