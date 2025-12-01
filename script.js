@@ -1,5 +1,5 @@
-// Array con 17 pares de vehículos para un total de 34 tarjetas
-const autos = ['🚗', '🚕', '🚓', '🚑', '🚒', '🚚', '🚛', '🚌', '🚜', '🏎️', '🏍️', '🚲', '🚁', '🚢', '🚀', '🚂', '🛸']; 
+// Array con 18 pares de vehículos para un total de 36 tarjetas
+const autos = ['🚗', '🚕', '🚓', '🚑', '🚒', '🚚', '🚛', '🚌', '🚜', '🏎️', '🏍️', '🚲', '🚁', '🚢', '🚀', '🚂', '🛸', '🛰️']; 
 
 // El tablero del juego
 const gameBoard = document.getElementById('game-board');
@@ -13,8 +13,13 @@ let bloqueoTablero = false;
 let movimientos = 0;
 let paresEncontrados = 0;
 
-// Emojis de celebración para el par encontrado
-const emojisMatch = ['🎉', '👍', '🥳', '🌟', '🤩']; 
+// Emojis y frases de celebración para el par encontrado
+const mensajesMatch = [
+    { text: '¡Genial!', emoji: '👍' },
+    { text: '¡Súper!', emoji: '🥳' },
+    { text: '¡Crack!', emoji: '🌟' },
+    { text: '¡Vamos!', emoji: '🤩' }
+]; 
 
 // Función para inicializar o reiniciar el juego
 function iniciarJuego() {
@@ -29,7 +34,7 @@ function iniciarJuego() {
     gameBoard.innerHTML = ''; // Limpiar el tablero
 
     // Duplicar y mezclar los autos
-    const gameCards = [...autos, ...autos];
+    const gameCards = [...autos, ...autos]; // Duplicar los 18 elementos a 36
     mezclarCartas(gameCards); 
 
     // Crear elementos HTML para cada tarjeta
@@ -50,11 +55,8 @@ function iniciarJuego() {
     });
 }
 
-// ... (mezclarCartas, voltearTarjeta se mantienen igual)
-
-// Lógica de pares encontrados (AÑADIMOS LA CELEBRACIÓN DE PAR)
+// Lógica de pares encontrados (incluye la celebración de par)
 function tarjetaEncontrada(segundaTarjeta) {
-    // Desactivar el clic en ambas tarjetas
     tarjetaVolteada.removeEventListener('click', voltearTarjeta);
     segundaTarjeta.removeEventListener('click', voltearTarjeta);
     
@@ -68,9 +70,8 @@ function tarjetaEncontrada(segundaTarjeta) {
 
     reiniciarTurno();
 
-    // Revisar si el juego terminó (AÑADIMOS LA CELEBRACIÓN FINAL)
+    // Revisar si el juego terminó (incluye la celebración final)
     if (paresEncontrados === autos.length) {
-        // En lugar de alert, llamamos a la función de victoria
         setTimeout(() => celebrarVictoria(), 500); 
     }
 }
@@ -90,39 +91,57 @@ function reiniciarTurno() {
     bloqueoTablero = false;
 }
 
-// === NUEVAS FUNCIONES DE CELEBRACIÓN ===
+// === FUNCIONES DE CELEBRACIÓN (se mantienen igual) ===
 
 function celebrarMatch() {
-    // Seleccionar un emoji y texto aleatorio
-    const randomEmoji = emojisMatch[Math.floor(Math.random() * emojisMatch.length)];
-    document.getElementById('match-text').textContent = `¡Genial! ${randomEmoji}`;
+    const randomMessage = mensajesMatch[Math.floor(Math.random() * mensajesMatch.length)];
+    document.getElementById('match-text').textContent = `${randomMessage.text} ${randomMessage.emoji}`;
 
-    // Mostrar el mensaje
     matchDiv.classList.remove('hidden');
+    matchDiv.style.animation = 'none';
+    matchDiv.offsetHeight; 
+    matchDiv.style.animation = null; 
 
-    // Ocultar el mensaje después de 1 segundo
     setTimeout(() => {
         matchDiv.classList.add('hidden');
     }, 1000); 
 }
 
 function celebrarVictoria() {
-    // Mostrar la celebración de ganar
     winDiv.classList.remove('hidden');
-    
-    // Actualizar el texto con los movimientos
     finalMovesP.textContent = `Lo hiciste en ${movimientos} movimientos.`;
-    
-    // NOTA: Para reiniciar, el jugador debe hacer clic en el botón "Reiniciar"
 }
 
 // Función auxiliar para mezclar (se mantiene igual)
 function mezclarCartas(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [array[i], array[j]] = [array[i], array[j]];
     }
 }
+
+// Lógica al hacer clic en una tarjeta (se mantiene igual)
+function voltearTarjeta() {
+    if (bloqueoTablero || this === tarjetaVolteada) return;
+    this.classList.add('flip');
+
+    if (!tarjetaVolteada) {
+        tarjetaVolteada = this;
+        return;
+    }
+    
+    movimientos++;
+    document.getElementById('moves').textContent = `Movimientos: ${movimientos}`;
+    
+    bloqueoTablero = true;
+
+    if (this.dataset.auto === tarjetaVolteada.dataset.auto) {
+        tarjetaEncontrada(this);
+    } else {
+        desvoltearTarjetas(this);
+    }
+}
+
 
 // Iniciar el juego automáticamente al cargar la página
 iniciarJuego();
