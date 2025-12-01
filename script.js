@@ -1,12 +1,12 @@
-// Array con los pares de autos (emojis son perfectos para niños)
-const autos = ['🚗', '🚕', '🚓', '🚑', '🚒', '🚚', '🚛', '🚌'];
+// Array con 16 pares de autos/vehículos para un total de 32 tarjetas
+const autos = ['🚗', '🚕', '🚓', '🚑', '🚒', '🚚', '🚛', '🚌', '🚜', '🏎️', '🏍️', '🚲', '🚁', '🚢', '🚀', '🚂'];
 
 // El tablero del juego
 const gameBoard = document.getElementById('game-board');
 
 // Variables de estado del juego
-let tarjetaVolteada = null; // Almacena la primera tarjeta clicada
-let bloqueoTablero = false; // Evita que se haga clic mientras se revisan dos tarjetas
+let tarjetaVolteada = null; 
+let bloqueoTablero = false; 
 let movimientos = 0;
 let paresEncontrados = 0;
 
@@ -19,7 +19,7 @@ function iniciarJuego() {
     gameBoard.innerHTML = ''; // Limpiar el tablero
 
     // Duplicar y mezclar los autos
-    const gameCards = [...autos, ...autos]; // Duplicar
+    const gameCards = [...autos, ...autos]; // Duplicar los 16 elementos a 32
     mezclarCartas(gameCards); // Mezclar
 
     // Crear elementos HTML para cada tarjeta
@@ -100,7 +100,7 @@ function tarjetaEncontrada(segundaTarjeta) {
 
     // Revisar si el juego terminó
     if (paresEncontrados === autos.length) {
-        setTimeout(() => alert(`🎉 ¡Felicidades! Terminaste el juego en ${movimientos} movimientos.`), 500);
+        setTimeout(() => alert(`🎉 ¡Felicidades! Terminaste el juego de 32 tarjetas en ${movimientos} movimientos.`), 500);
     }
 }
 
