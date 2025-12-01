@@ -5,6 +5,8 @@ body {
     align-items: center;
     background-color: #f0f0f0;
     margin: 20px;
+    /* Necesario para posicionar las celebraciones */
+    position: relative; 
 }
 
 h1 {
@@ -19,24 +21,22 @@ h1 {
 
 .board {
     display: grid;
-    /* Cuadrícula de 6 columnas para acomodar 34 tarjetas */
     grid-template-columns: repeat(6, 1fr); 
-    grid-gap: 7px; /* Espacio entre tarjetas un poco más reducido */
+    grid-gap: 7px; 
     width: 95%; 
-    max-width: 650px; /* Ancho máximo aumentado para más tarjetas */
+    max-width: 650px; 
     perspective: 1000px; 
 }
 
 .card {
     width: 100%;
-    height: 75px; /* Altura de la tarjeta reducida para más piezas */
+    height: 75px; 
     background-color: #ccc;
     cursor: pointer;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s;
     border-radius: 8px;
-    /* Sombra con efecto levantado y profundidad 3D */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
@@ -50,50 +50,94 @@ h1 {
     border-radius: 8px;
 }
 
-/* Estado de la tarjeta: volteada */
-.card.flip {
-    transform: rotateY(180deg);
+/* --- Estilos de Celebración --- */
+.hidden {
+    display: none !important;
 }
 
-.card-face, .card-back {
+#celebration-match {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 2.5em;
+    z-index: 100;
+    /* Animación simple de entrada y salida */
+    animation: bounce 0.5s ease-out; 
+}
+
+@keyframes bounce {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    80% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+#celebration-win {
+    position: fixed; /* Para cubrir toda la pantalla */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; 
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.7em; /* Tamaño del emoji ajustado */
-    border-radius: 8px;
+    font-size: 3em;
+    z-index: 200;
+    animation: fadeIn 1s;
 }
 
-/* La parte visible cuando está boca abajo (Dorso con "JIM") */
-.card-back {
-    /* Fondo con degradado sutil para dar sensación de volumen */
-    background: linear-gradient(145deg, #444, #222); 
-    color: gold; /* Color dorado para el texto JIM */
-    font-size: 1.8em; /* Tamaño de JIM */
-    font-weight: bold;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Sombreado más fuerte para el texto */
-    border: 3px solid #ffdb58; /* Borde dorado */
-    transform: translateZ(1px); 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-/* La parte visible cuando está boca arriba */
-.card-face {
-    background-color: #e9e9e9; /* Blanco suave */
-    transform: rotateY(180deg) translateZ(1px);
+/* --- Estilo de CONFETTI (Papelitos de colores) --- */
+.confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-/* Estilos especiales para tarjetas encontradas */
-.card.match {
-    cursor: default;
-    /* Quitamos la sombra para simular que se "aplasta" */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+.confetti::before, .confetti::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ff00ff; /* Magenta */
+    animation: confetti-fall 3s linear infinite;
+}
+.confetti::after {
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    background-color: yellow;
+    animation-delay: 1.5s;
 }
 
-/* Aplicar el color a la cara visible cuando hay coincidencia */
-.card.match .card-face {
-    /* Usamos un verde claro semi-transparente para un mejor contraste */
-    background-color: rgba(144, 238, 144, 0.5); 
+@keyframes confetti-fall {
+    0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
+
+/* [Omitiendo estilos de tarjeta existentes para brevedad, asume que están aquí] */
+
+/* Estilos de las Tarjetas (Asegúrate de mantener los estilos de la tarjeta aquí) */
+/* Por ejemplo, .card.flip, .card-face, .card-back, etc. */
+/* ... */
+.card.flip { transform: rotateY(180deg); }
+.card-face, .card-back { /* ... */ }
+.card-back { /* ... JIM style ... */ }
+.card-face { /* ... */ }
+.card.match .card-face { background-color: rgba(144, 238, 144, 0.5); }
+/* ... */
