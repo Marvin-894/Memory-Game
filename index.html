@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Memoria de Autos</title>
+    <title>Juego de Memoria de Vehículos JIM</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🚗 Memoria de Autos 🏎️</h1>
+    <h1>🚗 Memoria de Vehículos JIM 🏎️</h1>
     <div class="score-panel">
         <span id="moves">Movimientos: 0</span>
         <button onclick="iniciarJuego()">Reiniciar</button>
+    </div>
+
+    <div id="celebration-match" class="hidden">
+        <span id="match-text">¡Genial! 👍</span>
+    </div>
+
+    <div id="celebration-win" class="hidden">
+        <h2>🎉 ¡GANASTE! 🎉</h2>
+        <p id="final-moves"></p>
+        <div class="confetti"></div>
     </div>
 
     <div id="game-board" class="board">
