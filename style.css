@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+.score-panel {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.board {
+    display: grid;
+    /* Crea una cuadrícula de 4x4 */
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    width: 90%; /* Ajusta el ancho para celulares */
+    max-width: 500px;
+    perspective: 1000px; /* Necesario para la animación 3D de volteo */
+}
+
+.card {
+    width: 100%;
+    height: 100px; /* Altura de la tarjeta */
+    background-color: #ccc;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 8px;
+}
+
+/* Estado de la tarjeta: volteada */
+.card.flip {
+    transform: rotateY(180deg);
+}
+
+.card-face, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Oculta la cara trasera al estar volteada */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    border-radius: 8px;
+}
+
+/* La parte visible cuando está boca abajo */
+.card-back {
+    background-color: #555;
+    color: white;
+    font-size: 1.5em;
+}
+
+/* La parte visible cuando está boca arriba */
+.card-face {
+    background-color: white;
+    transform: rotateY(180deg);
+}
+
+/* Estilos especiales para tarjetas encontradas */
+.card.match {
+    /* Mantenemos este para el contenedor, aunque el cambio fuerte está en .card-face */
+    cursor: default;
+}
+
+/* APLICAR EL COLOR A LA CARA VISIBLE CUANDO HAY COINCIDENCIA */
+.card.match .card-face {
+    /* Usamos un verde claro semi-transparente para un mejor contraste */
+    background-color: rgba(144, 238, 144, 0.5); 
+}
